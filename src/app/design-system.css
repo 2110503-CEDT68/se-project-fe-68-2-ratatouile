@@ -1,0 +1,90 @@
+.ds-shell {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding-inline: 1rem;
+}
+
+.ds-topbar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 20;
+  height: 3.25rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--border-soft);
+  background: color-mix(in srgb, var(--surface-muted) 92%, white 8%);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(12px);
+}
+
+.ds-topbar__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.ds-nav-cluster {
+  position: absolute;
+  left: 50%;
+  display: flex;
+  gap: 2rem;
+  transform: translateX(-50%);
+}
+
+.ds-nav-link {
+  font-size: 1.125rem;
+  transition:
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.ds-nav-link:hover {
+  color: var(--text-secondary);
+  transform: translateY(-1px);
+}
+
+.ds-action-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ds-button-primary,
+.ds-button-secondary {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease;
+}
+
+.ds-button-primary {
+  background: var(--surface-contrast);
+  color: var(--text-inverse);
+}
+
+.ds-button-primary:hover {
+  background: var(--surface-contrast-hover);
+}
+
+.ds-button-secondary {
+  border: 1px solid var(--border-soft);
+  color: var(--text-primary);
+}
+
+.ds-button-secondary:hover {
+  background: rgba(89, 32, 13, 0.06);
+}
+
+@media (min-width: 640px) {
+  .ds-shell {
+    padding-inline: 1.5rem;
+  }
+}
