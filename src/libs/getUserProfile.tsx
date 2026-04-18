@@ -1,15 +1,16 @@
-export default async function getUserProfile(token:string) {
+import { apiUrl } from "./apiUrl";
 
-    const response = await fetch("https://be-project-68-dinoping-host.vercel.app/api/v1/auth/me", {
-        method: "GET",
-        headers: {
-           authorization : `Bearer ${token}`
-        },
-    })
+export default async function getUserProfile(token: string) {
+  const response = await fetch(apiUrl("/api/v1/auth/me"), {
+    method: "GET",
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  });
 
-    if(!response.ok) {
-        throw new Error("Failed to fetch user profile")
-    }
+  if (!response.ok) {
+    throw new Error("Failed to fetch user profile");
+  }
 
-    return await response.json()
+  return await response.json();
 }

@@ -1,71 +1,71 @@
-"use client"
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import Link from "next/link"
-import { signIn } from "next-auth/react"
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { apiUrl } from "@/libs/apiUrl";
 
 export default function SignUp() {
-  const [name, setName] = useState("")
-  const [phoneNumber, setPhoneNumber] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
-  const [error, setError] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [name, setName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError("")
-    
+    e.preventDefault();
+    setError("");
+
     if (password !== confirmPassword) {
-      setError("Passwords do not match")
-      return
+      setError("Passwords do not match");
+      return;
     }
 
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
-      const response = await fetch("https://be-project-68-dinoping-host.vercel.app/api/v1/auth/register", {
+      const response = await fetch(apiUrl("/api/v1/auth/register"), {
         method: "POST",
         headers: {
-            "Content-Type" : "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            email: email,
-            password: password,
-            telephone: phoneNumber,
-            name: name
-        })
-    })
-    
-    if(!response.ok) {
-        throw new Error("Failed to register")
-    }
+          email: email,
+          password: password,
+          telephone: phoneNumber,
+          name: name,
+        }),
+      });
 
-    const loginRes = await signIn("credentials", {
+      if (!response.ok) {
+        throw new Error("Failed to register");
+      }
+
+      const loginRes = await signIn("credentials", {
         email,
         password,
         redirect: false,
-    })
+      });
 
-    if (loginRes?.ok) {
-        router.push("/")
-        router.refresh() 
-    } else {
-        router.push("/auth/signin")
-    }
+      if (loginRes?.ok) {
+        router.push("/");
+        router.refresh();
+      } else {
+        router.push("/auth/signin");
+      }
 
-    // return await response.json()
-
+      // return await response.json()
     } catch (error: any) {
-      setError("An error occurred. Please try again.")
+      setError("An error occurred. Please try again.");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <main className="relative flex h-screen w-full flex-col items-center justify-center text-center">
@@ -82,12 +82,13 @@ export default function SignUp() {
 
       {/* Sign Up Card */}
       <div className="w-full max-w-2xl">
-        <div 
+        <div
           className="rounded-3xl bg-white shadow-2xl p-10"
           style={{
             background: "white",
             border: "8px solid transparent",
-            backgroundImage: "linear-gradient(white, white), linear-gradient(135deg, #73683B, #D9C89C)",
+            backgroundImage:
+              "linear-gradient(white, white), linear-gradient(135deg, #73683B, #D9C89C)",
             backgroundOrigin: "border-box",
             backgroundClip: "padding-box, border-box",
           }}
@@ -105,7 +106,10 @@ export default function SignUp() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Name Input */}
             <div>
-              <label htmlFor="name" className="text-left block text-sm font-medium text-[#3D220F] mb-2">
+              <label
+                htmlFor="name"
+                className="text-left block text-sm font-medium text-[#3D220F] mb-2"
+              >
                 Name
               </label>
               <input
@@ -121,7 +125,10 @@ export default function SignUp() {
 
             {/* Phone Number Input */}
             <div>
-              <label htmlFor="phoneNumber" className="text-left block text-sm font-medium text-[#3D220F] mb-2">
+              <label
+                htmlFor="phoneNumber"
+                className="text-left block text-sm font-medium text-[#3D220F] mb-2"
+              >
                 Phone Number
               </label>
               <input
@@ -137,7 +144,10 @@ export default function SignUp() {
 
             {/* Email Input */}
             <div>
-              <label htmlFor="email" className="text-left block text-sm font-medium text-[#3D220F] mb-2">
+              <label
+                htmlFor="email"
+                className="text-left block text-sm font-medium text-[#3D220F] mb-2"
+              >
                 Email
               </label>
               <input
@@ -153,7 +163,10 @@ export default function SignUp() {
 
             {/* Password Input */}
             <div>
-              <label htmlFor="password" className="text-left block text-sm font-medium text-[#3D220F] mb-2">
+              <label
+                htmlFor="password"
+                className="text-left block text-sm font-medium text-[#3D220F] mb-2"
+              >
                 Password
               </label>
               <div className="relative">
@@ -178,7 +191,10 @@ export default function SignUp() {
 
             {/* Confirm Password Input */}
             <div>
-              <label htmlFor="confirmPassword" className="text-left block text-sm font-medium text-[#3D220F] mb-2">
+              <label
+                htmlFor="confirmPassword"
+                className="text-left block text-sm font-medium text-[#3D220F] mb-2"
+              >
                 Confirm Password
               </label>
               <div className="relative">
@@ -215,7 +231,10 @@ export default function SignUp() {
           <div className="text-center mt-8">
             <span className="text-[#59200D]">
               Already Have An Account ?{" "}
-              <Link href="/auth/signin" className="text-[#A76438] hover:text-[#59200D] font-semibold transition">
+              <Link
+                href="/auth/signin"
+                className="text-[#A76438] hover:text-[#59200D] font-semibold transition"
+              >
                 Sign In
               </Link>
             </span>
@@ -223,5 +242,5 @@ export default function SignUp() {
         </div>
       </div>
     </main>
-  )
+  );
 }
