@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local product backlog notes
+RESTAURANT_PROFILE_MANAGEMENT_BACKLOG.md
+SPRINT1_RESTAURANT_PROFILE_MANAGEMENT.md
+
+# local git account switching profiles
+.git-account-profiles

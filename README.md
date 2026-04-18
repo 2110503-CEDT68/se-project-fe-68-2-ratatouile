@@ -1,2 +1,16 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/fpUm_Avi)
-test read me by hotoh
+
+# Frontend Setup
+
+This project uses React through Next.js with the App Router.
+
+Current frontend structure:
+
+- `src/app` for routes and layouts
+- `src/components` for reusable UI components
+- `src/libs` for client-side helper functions
+- `src/provider` for shared providers
+
+Routing is handled by the Next.js App Router in `src/app`, so there is no separate `react-router-dom` setup in this repository.
+
+Local-only planning notes and local git account profile files are ignored in `.gitignore`.
