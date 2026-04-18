@@ -14,3 +14,8 @@ Current frontend structure:
 Routing is handled by the Next.js App Router in `src/app`, so there is no separate `react-router-dom` setup in this repository.
 
 Local-only planning notes and local git account profile files are ignored in `.gitignore`.
+
+Formatting is handled with Prettier:
+
+- `npm run format`
+- `npm run format:check`
