@@ -29,6 +29,11 @@ export default function RestaurantForm({
       return;
     }
 
+    if (openTime >= closeTime) {
+      setError("Close time must be later than open time.");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -109,6 +114,7 @@ export default function RestaurantForm({
           <input
             type="text"
             required
+            maxLength={50}
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Enter restaurant name"
@@ -137,6 +143,8 @@ export default function RestaurantForm({
           <input
             type="tel"
             required
+            pattern="[0-9+\-\s()]{6,20}"
+            title="Please enter a valid telephone number"
             value={telephone}
             onChange={(e) => setTelephone(e.target.value)}
             placeholder="e.g. 0812345678"
@@ -164,6 +172,7 @@ export default function RestaurantForm({
             <input
               type="time"
               required
+              min={openTime || undefined}
               value={closeTime}
               onChange={(e) => setCloseTime(e.target.value)}
               className="w-full px-4 py-2 border border-[#D9C89C] rounded-lg bg-[#f9f7f3] text-[#59200D] focus:outline-none focus:ring-2 focus:ring-[#D9C89C] text-sm"
