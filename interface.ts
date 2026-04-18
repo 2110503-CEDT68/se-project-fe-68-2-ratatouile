@@ -29,6 +29,8 @@ export interface ReservationJson {
 export interface ReservationItem {
   _id: string;
   reservationDate: string;
+  status: 'waiting' | 'approved' | 'rejected';
+  reason_reject?: string;
   user: UserItem;
   restaurant: RestaurantItem;
   createdAt: string;

@@ -7,43 +7,50 @@ import BookingCard from "./BookingCard";
 import { apiUrl } from "@/libs/apiUrl";
 import RestaurantForm from "./RestaurantForm";
 
-export default function BookingList() {
+export default function BookingListAdmin() {
   const { data: session } = useSession();
 
   const [bookItems, setBookItems] = useState<ReservationItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [showReservations, setShowReservations] = useState(true);
 
   const removeBookingFromState = (id: string) => {
     setBookItems((prevItems) => prevItems.filter((item) => item._id !== id));
   };
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch(apiUrl("/api/v1/reservations"), {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${session?.user.token}`,
-          },
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-          setBookItems(result.data);
-        }
-
-        console.log(result.data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
+  const fetchData = async () => {
+    if (!session?.user.token) {
+      setLoading(false);
+      return;
     }
+
+    try {
+      const response = await fetch(apiUrl("/api/v1/reservations"), {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session.user.token}`,
+        },
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setBookItems(result.data);
+      }
+
+      console.log(result.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
-  }, []);
+  }, [session]);
 
   return (
     <div className="relative min-h-screen overflow-hidden pt-13">
@@ -77,18 +84,32 @@ export default function BookingList() {
           {/* Create Booking Button */}
           <div className="absolute px-10 pt-13 right-6 -top-1 flex gap-4">
             {session?.user.role === 'restaurantOwner' && (
-              <button
-                onClick={() => setIsCreateModalOpen(true)}
-                className="px-8 py-3 rounded-full text-[#5C3D1A] text-sm tracking-[0.18em] uppercase font-medium
-                          transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer shadow-md"
-                style={{
-                  background: "linear-gradient(135deg, #E8D9A0, #C9A96E)",
-                  fontFamily: "'Jost', 'Sarabun', sans-serif",
-                  letterSpacing: "0.18em",
-                }}
-              >
-                create restaurant
-              </button>
+              <>
+                <button
+                  onClick={() => setShowReservations(!showReservations)}
+                  className="px-8 py-3 rounded-full text-[#5C3D1A] text-sm tracking-[0.18em] uppercase font-medium
+                            transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer shadow-md"
+                  style={{
+                    background: "linear-gradient(135deg, #E8D9A0, #C9A96E)",
+                    fontFamily: "'Jost', 'Sarabun', sans-serif",
+                    letterSpacing: "0.18em",
+                  }}
+                >
+                  {showReservations ? "hide reservations" : "list reservation"}
+                </button>
+                <button
+                  onClick={() => setIsCreateModalOpen(true)}
+                  className="px-8 py-3 rounded-full text-[#5C3D1A] text-sm tracking-[0.18em] uppercase font-medium
+                            transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer shadow-md"
+                  style={{
+                    background: "linear-gradient(135deg, #E8D9A0, #C9A96E)",
+                    fontFamily: "'Jost', 'Sarabun', sans-serif",
+                    letterSpacing: "0.18em",
+                  }}
+                >
+                  create restaurant
+                </button>
+              </>
             )}
             <Link
               href="/booking"
@@ -114,36 +135,39 @@ export default function BookingList() {
           )}
 
           {/* Main container */}
-          {bookItems.length === 0 ? (
-            <div
-              className="mt-10 rounded-4xl p-16 text-center"
-              style={{ background: "#73683B", border: "2px solid #D9C89C" }}
-            >
-              <p
-                className="text-[#D9C89C] text-xl tracking-widest uppercase"
-                style={{ fontFamily: "'Cormorant Garamond', serif" }}
+          {(session?.user.role !== 'restaurantOwner' || showReservations) && (
+            bookItems.length === 0 ? (
+              <div
+                className="mt-10 rounded-4xl p-16 text-center"
+                style={{ background: "#73683B", border: "2px solid #D9C89C" }}
               >
-                No Reservations Found
-              </p>
-              <p className="text-[#D9C89C]/60 text-sm mt-2">
-                Your bookings will appear here
-              </p>
-            </div>
-          ) : (
-            <div
-              className="rounded-3xl p-6 flex flex-col gap-6"
-              style={{ background: "#73683B", border: "2px solid #D9C89C" }}
-            >
-              {bookItems.map((book: ReservationItem) => {
-                return (
-                  <BookingCard
-                    key={book._id}
-                    book={book}
-                    onDelete={removeBookingFromState}
-                  />
-                );
-              })}
-            </div>
+                <p
+                  className="text-[#D9C89C] text-xl tracking-widest uppercase"
+                  style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                >
+                  No Reservations Found
+                </p>
+                <p className="text-[#D9C89C]/60 text-sm mt-2">
+                  Your bookings will appear here
+                </p>
+              </div>
+            ) : (
+              <div
+                className="mt-20 rounded-3xl p-6 flex flex-col gap-6"
+                style={{ background: "#73683B", border: "2px solid #D9C89C" }}
+              >
+                {bookItems.map((book: ReservationItem) => {
+                  return (
+                    <BookingCard
+                      key={book._id}
+                      book={book}
+                      onDelete={removeBookingFromState}
+                      onUpdate={fetchData}
+                    />
+                  );
+                })}
+              </div>
+            )
           )}
         </div>
       )}

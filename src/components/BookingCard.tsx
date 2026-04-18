@@ -6,6 +6,7 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { useState } from "react";
 import ReviewModal from "./ReviewModal";
+import RejectModal from "./RejectModal";
 import { apiUrl } from "@/libs/apiUrl";
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -13,13 +14,40 @@ dayjs.extend(timezone);
 export default function BookingCard({
   book,
   onDelete,
+  onUpdate,
 }: {
   book: ReservationItem;
   onDelete: (id: string) => void;
+  onUpdate?: () => void;
 }) {
   const { data: session } = useSession();
 
   const [isReviewOpen, setIsReviewOpen] = useState(false);
+  const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
+
+  const handleUpdateStatus = async (status: 'approved' | 'rejected', reason: string = "") => {
+    try {
+      const response = await fetch(apiUrl(`/api/v1/reservations/${book._id}`), {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session?.user.token}`,
+        },
+        body: JSON.stringify({ status, reason_reject: reason }),
+      });
+
+      if (response.ok) {
+        alert(`Reservation successfully ${status}!`);
+        setIsRejectModalOpen(false);
+        if (onUpdate) onUpdate();
+      } else {
+        const data = await response.json();
+        alert(data.message || "Failed to update reservation status");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleReviewSubmit = async (rating: number, comment: string) => {
     try {
@@ -53,25 +81,61 @@ export default function BookingCard({
     );
     if (!isConfirmed) return;
 
+    if (!session?.user.token) {
+      alert("Please sign in again before cancelling this reservation.");
+      return;
+    }
+
     try {
       const response = await fetch(apiUrl(`/api/v1/reservations/${book._id}`), {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${session?.user.token}`,
+          Authorization: `Bearer ${session.user.token}`,
         },
       });
 
-      const data = await response.json();
+      const data = await response.json().catch(() => null);
 
       if (!response.ok) {
-        throw new Error(data.message || "Failed to delete a reservation");
+        if (response.status === 404) {
+          alert(
+            data?.message ||
+              "This reservation was already cancelled or could not be found."
+          );
+          onDelete(book._id);
+          if (onUpdate) onUpdate();
+          return;
+        }
+
+        if (response.status === 403) {
+          alert(
+            data?.message ||
+              "You do not have permission to cancel this reservation."
+          );
+          return;
+        }
+
+        if (response.status >= 500) {
+          alert(
+            data?.message || "Unable to cancel reservation right now. Please try again."
+          );
+          return;
+        }
+
+        throw new Error(data?.message || "Failed to cancel reservation");
       }
 
-      alert("Delete your reservation Successful!");
+      alert(data?.message || "Reservation cancelled successfully!");
       onDelete(book._id);
+      if (onUpdate) onUpdate();
     } catch (error) {
       console.error("Error:", error);
+      alert(
+        error instanceof Error
+          ? error.message
+          : "Unable to cancel reservation right now."
+      );
     }
   };
 
@@ -124,44 +188,86 @@ export default function BookingCard({
                 .format("DD MMM YYYY HH:mm")}
             />
             <DescRow label="โทรศัพท์" value={book.restaurant.telephone} />
+            <DescRow 
+              label="สถานะ" 
+              value={book.status ? (book.status.charAt(0).toUpperCase() + book.status.slice(1)) : 'Waiting'} 
+            />
+            {book.status === 'rejected' && book.reason_reject && (
+              <DescRow label="เหตุผล" value={book.reason_reject} />
+            )}
           </div>
 
           {/* Buttons */}
           <div className="flex justify-between">
-            <button
-              onClick={() => setIsReviewOpen(true)}
-              className="px-7 py-2 rounded-full text-[#5C3D1A] text-xs 
+            {session?.user.role === 'restaurantOwner' ? (
+              <div className="flex gap-3 justify-end w-full">
+                {(!book.status || book.status === 'waiting') && (
+                  <>
+                    <button
+                      onClick={() => handleUpdateStatus('approved')}
+                      className="px-7 py-2 rounded-full text-[#5C3D1A] text-xs 
                         tracking-[0.15em] uppercase font-medium transition-all duration-200 hover:scale-105 active:scale-95 shadow"
-              style={{
-                background: "linear-gradient(135deg, #E8D9A0, #C9A96E)",
-              }}
-            >
-              Review
-            </button>
-            <div className="flex gap-3 justify-end">
-              <Link
-                href={`/booking?reservationId=${book._id}&restaurant=${book.restaurant.name}&id=${book.restaurant._id}&update=1`}
-                className="px-7 py-2 rounded-full text-[#5C3D1A] text-xs 
-        tracking-[0.15em] uppercase font-medium transition-all duration-200 hover:scale-105 active:scale-95 shadow"
-                style={{
-                  background: "linear-gradient(135deg, #E8D9A0, #C9A96E)",
-                }}
-              >
-                Edit
-              </Link>
+                      style={{
+                        background: "linear-gradient(135deg, #E8D9A0, #C9A96E)",
+                      }}
+                    >
+                      Accept
+                    </button>
+                    <button
+                      onClick={() => setIsRejectModalOpen(true)}
+                      className="px-7 py-2 rounded-full text-red-500 text-xs tracking-[0.15em] uppercase font-medium
+                        transition-all duration-200 hover:scale-105 active:scale-95 border border-red-400 cursor-pointer hover:bg-red-50"
+                      style={{ background: "transparent" }}
+                    >
+                      Reject
+                    </button>
+                  </>
+                )}
+              </div>
+            ) : (
+              <>
+                <button
+                  onClick={() => setIsReviewOpen(true)}
+                  className="px-7 py-2 rounded-full text-[#5C3D1A] text-xs 
+                            tracking-[0.15em] uppercase font-medium transition-all duration-200 hover:scale-105 active:scale-95 shadow"
+                  style={{
+                    background: "linear-gradient(135deg, #E8D9A0, #C9A96E)",
+                  }}
+                >
+                  Review
+                </button>
+                <div className="flex gap-3 justify-end">
+                  <Link
+                    href={`/booking?reservationId=${book._id}&restaurant=${book.restaurant.name}&id=${book.restaurant._id}&update=1`}
+                    className="px-7 py-2 rounded-full text-[#5C3D1A] text-xs 
+            tracking-[0.15em] uppercase font-medium transition-all duration-200 hover:scale-105 active:scale-95 shadow"
+                    style={{
+                      background: "linear-gradient(135deg, #E8D9A0, #C9A96E)",
+                    }}
+                  >
+                    Edit
+                  </Link>
 
-              <button
-                onClick={deleteBooking}
-                className="px-7 py-2 rounded-full text-[#E8D9A0] text-xs tracking-[0.15em] uppercase font-medium
-                        transition-all duration-200 hover:scale-105 active:scale-95 border cursor-pointer"
-                style={{ borderColor: "#D9C89C", background: "transparent" }}
-              >
-                Delete
-              </button>
-            </div>
+                  <button
+                    onClick={deleteBooking}
+                    className="px-7 py-2 rounded-full text-[#E8D9A0] text-xs tracking-[0.15em] uppercase font-medium
+                            transition-all duration-200 hover:scale-105 active:scale-95 border cursor-pointer"
+                    style={{ borderColor: "#D9C89C", background: "transparent" }}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
+
+      <RejectModal
+        isOpen={isRejectModalOpen}
+        onClose={() => setIsRejectModalOpen(false)}
+        onSubmit={(reason) => handleUpdateStatus('rejected', reason)}
+      />
 
       <ReviewModal
         isOpen={isReviewOpen}
