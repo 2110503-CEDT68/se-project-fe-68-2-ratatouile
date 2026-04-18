@@ -39,6 +39,7 @@ export default function Restaurants() {
 
   const [isReviewOpen, setIsReviewOpen] = useState(false);
   const [editingReview, setEditingReview] = useState<any>(null);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const onEdit = (review: any) => {
     setEditingReview(review);
