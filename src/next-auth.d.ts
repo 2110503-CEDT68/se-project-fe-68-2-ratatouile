@@ -9,7 +9,7 @@ declare module "next-auth" {
             name: string;
             email: string;
             telephone: string;
-            role: 'user' | 'admin';
+            role: 'user' | 'admin' | 'restaurantOwner';
             createdAt: string;
             token: string;
         } & DefaultSession["user"]
@@ -21,7 +21,7 @@ declare module "next-auth" {
         name: string;
         email: string;
         telephone: string;
-        role: 'user' | 'admin';
+        role: 'user' | 'admin' | 'restaurantOwner';
         createdAt: string;
         token: string;
     }
@@ -31,7 +31,7 @@ declare module "next-auth/jwt" {
     interface JWT {
         _id: string;
         id: string;
-        role: 'user' | 'admin';
+        role: 'user' | 'admin' | 'restaurantOwner';
         telephone: string;
         createdAt: string;
         token: string;

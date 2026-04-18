@@ -145,6 +145,10 @@ export default function Restaurants() {
           </h1>
         </header>
 
+        {session?.user.role === 'restaurantOwner' && (
+           <RestaurantForm onSuccess={() => fetchData()} />
+        )}
+
         {/* Loading State */}
         {loading ? (
           <p className="text-center text-white/70 text-lg">Loading...</p>
