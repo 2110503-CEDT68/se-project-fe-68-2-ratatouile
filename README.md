@@ -19,3 +19,15 @@ Formatting is handled with Prettier:
 
 - `npm run format`
 - `npm run format:check`
+
+Tailwind CSS is configured globally:
+
+- `tailwindcss` and `@tailwindcss/postcss` are installed
+- Tailwind is loaded in `src/app/globals.css`
+- shared color and typography tokens are defined in `src/app/globals.css`
+
+The design direction currently uses shared brand tokens for:
+
+- canvas and surface colors
+- primary and secondary text colors
+- shared contrast/action colors
