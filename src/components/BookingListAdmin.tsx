@@ -73,7 +73,21 @@ export default function BookingList() {
           style={{ fontFamily: "'Jost', 'Sarabun', sans-serif" }}
         >
           {/* Create Booking Button */}
-          <div className="absolute px-10 pt-13 right-6 -top-1">
+          <div className="absolute px-10 pt-13 right-6 -top-1 flex gap-4">
+            {session?.user.role === 'restaurantOwner' && (
+              <button
+                onClick={() => setIsCreateModalOpen(true)}
+                className="px-8 py-3 rounded-full text-[#5C3D1A] text-sm tracking-[0.18em] uppercase font-medium
+                          transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer shadow-md"
+                style={{
+                  background: "linear-gradient(135deg, #E8D9A0, #C9A96E)",
+                  fontFamily: "'Jost', 'Sarabun', sans-serif",
+                  letterSpacing: "0.18em",
+                }}
+              >
+                create restaurant
+              </button>
+            )}
             <Link
               href="/booking"
               className="px-8 py-3 rounded-full text-[#5C3D1A] text-sm tracking-[0.18em] uppercase font-medium
@@ -87,6 +101,15 @@ export default function BookingList() {
               create booking
             </Link>
           </div>
+
+          {session?.user.role === 'restaurantOwner' && isCreateModalOpen && (
+            <RestaurantForm 
+              onSuccess={() => {
+                setIsCreateModalOpen(false);
+              }} 
+              onClose={() => setIsCreateModalOpen(false)}
+            />
+          )}
 
           {/* Main container */}
           {bookItems.length === 0 ? (
