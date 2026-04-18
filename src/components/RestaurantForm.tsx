@@ -77,23 +77,31 @@ export default function RestaurantForm({
   };
 
   return (
-    <div
-      className="w-full max-w-2xl mx-auto p-8 rounded-3xl shadow-2xl relative overflow-hidden mt-8 mb-16"
-      style={{
-        background: "white",
-        border: "8px solid transparent",
-        backgroundImage:
-          "linear-gradient(white, white), linear-gradient(135deg, #73683B, #D9C89C)",
-        backgroundOrigin: "border-box",
-        backgroundClip: "padding-box, border-box",
-      }}
-    >
-      <h2
-        className="text-3xl font-bold text-center mb-6 text-[#73683B]"
-        style={{ fontFamily: "'Cormorant Garamond', serif" }}
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 overflow-y-auto">
+      <div
+        className="w-full max-w-2xl bg-white p-8 rounded-3xl shadow-2xl relative overflow-hidden"
+        style={{
+          border: "8px solid transparent",
+          backgroundImage:
+            "linear-gradient(white, white), linear-gradient(135deg, #73683B, #D9C89C)",
+          backgroundOrigin: "border-box",
+          backgroundClip: "padding-box, border-box",
+        }}
       >
-        Create a Restaurant
-      </h2>
+        <button
+          onClick={onClose}
+          type="button"
+          className="absolute top-4 right-4 text-[#877959] hover:text-[#59200D] transition-colors"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+
+        <h2
+          className="text-3xl font-bold text-center mb-6 text-[#73683B]"
+          style={{ fontFamily: "'Cormorant Garamond', serif" }}
+        >
+          Create a Restaurant
+        </h2>
 
       {error && (
         <div className="mb-4 p-3 bg-red-100 text-red-700 border border-red-400 rounded-lg text-sm">

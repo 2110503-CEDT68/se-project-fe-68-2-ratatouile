@@ -137,7 +137,15 @@ export default function Restaurants() {
         className="max-w-6xl mx-auto px-6 pb-24"
         style={{ fontFamily: "'Jost', 'Sarabun', sans-serif" }}
       >
-        <header className="text-center pt-20 pb-10">
+        <header className="relative text-center pt-20 pb-10 flex items-center justify-center">
+          {session?.user.role === 'restaurantOwner' && (
+            <button
+              onClick={() => setIsCreateModalOpen(true)}
+              className="absolute left-0 bg-[#C9A96E]/20 text-[#D9C89C] border border-[#D9C89C] hover:bg-[#D9C89C] hover:text-[#2C1A10] px-4 py-2 rounded-lg transition-colors text-sm uppercase tracking-widest font-semibold backdrop-blur-sm shadow-lg"
+            >
+              + Create
+            </button>
+          )}
           <h1
             className="text-6xl font-bold text-shadow-lg text-white mb-4 leading-none"
             style={{ fontFamily: "'Cormorant Garamond', serif" }}
@@ -146,8 +154,14 @@ export default function Restaurants() {
           </h1>
         </header>
 
-        {session?.user.role === 'restaurantOwner' && (
-           <RestaurantForm onSuccess={() => fetchData()} />
+        {session?.user.role === 'restaurantOwner' && isCreateModalOpen && (
+           <RestaurantForm 
+             onSuccess={() => {
+               setIsCreateModalOpen(false);
+               fetchData();
+             }} 
+             onClose={() => setIsCreateModalOpen(false)}
+           />
         )}
 
         {/* Loading State */}
