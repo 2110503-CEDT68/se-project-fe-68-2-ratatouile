@@ -5,8 +5,10 @@ import { apiUrl } from "@/libs/apiUrl";
 
 export default function RestaurantForm({
   onSuccess,
+  onClose,
 }: {
   onSuccess?: () => void;
+  onClose?: () => void;
 }) {
   const { data: session } = useSession();
   const [name, setName] = useState("");
