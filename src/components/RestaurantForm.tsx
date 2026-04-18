@@ -209,6 +209,7 @@ export default function RestaurantForm({
           {loading ? "Creating..." : "Create Restaurant"}
         </button>
       </form>
+      </div>
     </div>
   );
 }
