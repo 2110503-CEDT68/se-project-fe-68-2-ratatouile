@@ -175,7 +175,7 @@ export default function SignUp() {
                 onChange={(e) => setRole(e.target.value)}
                 className="w-full px-4 py-2 border border-[#D9C89C] rounded-lg bg-[#f9f7f3] text-[#59200D] focus:outline-none focus:ring-2 focus:ring-[#D9C89C] focus:border-transparent text-sm"
               >
-                <option value="user">User</option>
+                <option value="user">Customer</option>
                 <option value="restaurantOwner">Restaurant Owner</option>
               </select>
             </div>
