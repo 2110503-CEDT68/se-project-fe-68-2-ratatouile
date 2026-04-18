@@ -24,7 +24,7 @@ export default function TopMenu({ session }: TopMenuProps) {
           <TopMenuItem title="Home" pageRef="/" />
           <TopMenuItem title="Reservation" pageRef="/booking" />
           <TopMenuItem title="Restaurants" pageRef="/restaurants" />
-          {session?.user?.role === "admin" ? (
+          {session?.user?.role === "admin" || session?.user?.role === "restaurantOwner" ? (
             <TopMenuItem title="Dashboard" pageRef="/dashboard" />
           ) : (
             <TopMenuItem title="My Booking" pageRef="/mybooking" />
