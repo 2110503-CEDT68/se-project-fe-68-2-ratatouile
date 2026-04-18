@@ -22,7 +22,7 @@
   --color-brand-text: var(--text-primary);
   --color-brand-text-soft: var(--text-secondary);
   --color-brand-text-inverse: var(--text-inverse);
-  --font-display: var(--font-playfair-display), serif;
+  --font-display: "Georgia", "Times New Roman", serif;
 }
 
 * {
@@ -36,7 +36,7 @@ html {
 body {
   background: var(--surface-canvas);
   color: var(--text-primary);
-  font-family: var(--font-playfair-display), serif;
+  font-family: var(--font-display);
   text-rendering: optimizeLegibility;
 }
 

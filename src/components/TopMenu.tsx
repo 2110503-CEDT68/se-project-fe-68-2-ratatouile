@@ -1,14 +1,13 @@
 import Image from "next/image";
 import TopMenuItem from "./TopMenuItem";
-import { getServerSession } from "next-auth";
 import Link from "next/link";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { Session } from "next-auth";
 
-export default async function TopMenu() {
-  const session = await getServerSession(authOptions);
+type TopMenuProps = {
+  session: Session | null;
+};
 
-  console.log(session);
-
+export default function TopMenu({ session }: TopMenuProps) {
   return (
     <main className="ds-topbar">
       <div className="ds-shell ds-topbar__content">
