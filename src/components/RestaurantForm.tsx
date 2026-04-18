@@ -3,7 +3,11 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { apiUrl } from "@/libs/apiUrl";
 
-export default function RestaurantForm({ onSuccess }: { onSuccess?: () => void }) {
+export default function RestaurantForm({
+  onSuccess,
+}: {
+  onSuccess?: () => void;
+}) {
   const { data: session } = useSession();
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
@@ -19,6 +23,12 @@ export default function RestaurantForm({ onSuccess }: { onSuccess?: () => void }
     e.preventDefault();
     setError("");
     setSuccess(false);
+
+    if (!session?.user?.token) {
+      setError("Please sign in before creating a restaurant profile.");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -40,7 +50,10 @@ export default function RestaurantForm({ onSuccess }: { onSuccess?: () => void }
 
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.message || "Failed to create restaurant");
+        const errorMessage = Array.isArray(data.error)
+          ? data.error.join(", ")
+          : data.error || data.message || "Failed to create restaurant";
+        throw new Error(errorMessage);
       }
 
       setSuccess(true);
