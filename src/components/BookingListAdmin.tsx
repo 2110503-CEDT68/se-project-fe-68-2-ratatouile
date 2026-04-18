@@ -5,12 +5,14 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import BookingCard from "./BookingCard";
 import { apiUrl } from "@/libs/apiUrl";
+import RestaurantForm from "./RestaurantForm";
 
 export default function BookingList() {
   const { data: session } = useSession();
 
   const [bookItems, setBookItems] = useState<ReservationItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const removeBookingFromState = (id: string) => {
     setBookItems((prevItems) => prevItems.filter((item) => item._id !== id));

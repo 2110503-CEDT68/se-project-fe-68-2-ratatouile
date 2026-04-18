@@ -365,7 +365,3 @@ export default function Restaurants() {
     </div>
   );
 }
-iv>
-    </div>
-  );
-}
