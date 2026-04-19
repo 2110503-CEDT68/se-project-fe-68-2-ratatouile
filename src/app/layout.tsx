@@ -20,8 +20,8 @@ export default async function RootLayout({
   const nextAuthSession = await getServerSession(authOptions);
 
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" suppressHydrationWarning>
+      <body suppressHydrationWarning>
         <NextAuthProvider session={nextAuthSession}>
           <TopMenu session={nextAuthSession} />
           {children}

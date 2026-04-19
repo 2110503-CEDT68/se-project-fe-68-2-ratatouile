@@ -47,3 +47,8 @@ SPRINT1_RESTAURANT_PROFILE_MANAGEMENT.md
 
 # local git account switching profiles
 .git-account-profiles
+
+# Antigravity Agent Setup
+.agents/
+antigravity-setup/
+AGENT.md

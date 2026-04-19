@@ -3,23 +3,29 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { apiUrl } from "@/libs/apiUrl";
 
+import { RestaurantItem } from "../../interface";
+
 export default function RestaurantForm({
   onSuccess,
   onClose,
+  editData,
 }: {
   onSuccess?: () => void;
   onClose?: () => void;
+  editData?: RestaurantItem;
 }) {
   const { data: session } = useSession();
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [telephone, setTelephone] = useState("");
-  const [openTime, setOpenTime] = useState("");
-  const [closeTime, setCloseTime] = useState("");
-  const [picture, setPicture] = useState("");
+  const [name, setName] = useState(editData?.name || "");
+  const [address, setAddress] = useState(editData?.address || "");
+  const [telephone, setTelephone] = useState(editData?.telephone || "");
+  const [openTime, setOpenTime] = useState(editData?.openTime || "");
+  const [closeTime, setCloseTime] = useState(editData?.closeTime || "");
+  const [picture, setPicture] = useState(editData?.picture || "");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+
+  const isEdit = !!editData;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,7 +33,7 @@ export default function RestaurantForm({
     setSuccess(false);
 
     if (!session?.user?.token) {
-      setError("Please sign in before creating a restaurant profile.");
+      setError(`Please sign in before ${isEdit ? "updating" : "creating"} a restaurant profile.`);
       return;
     }
 
@@ -39,8 +45,12 @@ export default function RestaurantForm({
     setLoading(true);
 
     try {
-      const response = await fetch(apiUrl("/api/v1/restaurants"), {
-        method: "POST",
+      const url = isEdit 
+        ? apiUrl(`/api/v1/restaurants/${editData._id}`) 
+        : apiUrl("/api/v1/restaurants");
+        
+      const response = await fetch(url, {
+        method: isEdit ? "PUT" : "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${session?.user.token}`,
@@ -59,18 +69,24 @@ export default function RestaurantForm({
         const data = await response.json();
         const errorMessage = Array.isArray(data.error)
           ? data.error.join(", ")
-          : data.error || data.message || "Failed to create restaurant";
+          : data.error || data.message || `Failed to ${isEdit ? "update" : "create"} restaurant`;
         throw new Error(errorMessage);
       }
 
       setSuccess(true);
-      setName("");
-      setAddress("");
-      setTelephone("");
-      setOpenTime("");
-      setCloseTime("");
-      setPicture("");
-      if (onSuccess) onSuccess();
+      if (!isEdit) {
+        setName("");
+        setAddress("");
+        setTelephone("");
+        setOpenTime("");
+        setCloseTime("");
+        setPicture("");
+      }
+      
+      setTimeout(() => {
+        if (onSuccess) onSuccess();
+      }, 1500);
+      
     } catch (err: any) {
       setError(err.message || "An error occurred");
     } finally {
@@ -102,7 +118,7 @@ export default function RestaurantForm({
           className="text-3xl font-bold text-center mb-6 text-[#73683B]"
           style={{ fontFamily: "'Cormorant Garamond', serif" }}
         >
-          Create a Restaurant
+          {isEdit ? "Edit Restaurant Profile" : "Create a Restaurant"}
         </h2>
 
       {error && (
@@ -112,7 +128,7 @@ export default function RestaurantForm({
       )}
       {success && (
         <div className="mb-4 p-3 bg-green-100 text-green-700 border border-green-400 rounded-lg text-sm">
-          Restaurant created successfully!
+          {isEdit ? "Restaurant updated successfully!" : "Restaurant created successfully!"}
         </div>
       )}
 
@@ -208,7 +224,7 @@ export default function RestaurantForm({
           disabled={loading}
           className="w-full py-2.5 rounded-lg bg-gradient-to-r from-[#D9C89C] to-[#877959] text-white font-semibold hover:opacity-90 transition disabled:opacity-50 mt-6"
         >
-          {loading ? "Creating..." : "Create Restaurant"}
+          {loading ? (isEdit ? "Updating..." : "Creating...") : (isEdit ? "Update Restaurant" : "Create Restaurant")}
         </button>
       </form>
       </div>
