@@ -7,7 +7,7 @@ import NextAuthProvider from "@/provider/NextAuthProvider";
 import { authOptions } from "./api/auth/[...nextauth]/authOptions";
 
 export const metadata: Metadata = {
-  title: "DinoPing",
+  title: "Ratatouille",
   description:
     "Elevate every occasion with a table tailored to your standards.",
 };

@@ -21,7 +21,7 @@ export default function Banner() {
 
             <Image src="/logo.png" alt="logo" width={150} height={10} className="object-cover"/>
 
-            <h1 className="text-6xl font-semibold">DINOPING</h1>
+            <h1 className="text-6xl font-semibold uppercase">Ratatouille</h1>
 
             <h2 className="text-xl font-regular text-gray-200">Elevate every occasion with a table tailored to your standards.</h2>
 
