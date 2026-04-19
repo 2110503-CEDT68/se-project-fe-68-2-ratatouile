@@ -169,7 +169,7 @@ export default function RestaurantForm({
           <input
             type="tel"
             required
-            pattern="[0-9+\-\s()]{6,20}"
+            pattern="[0-9+\s()\-]{6,20}"
             title="Please enter a valid telephone number"
             value={telephone}
             onChange={(e) => setTelephone(e.target.value)}
