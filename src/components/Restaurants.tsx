@@ -173,7 +173,7 @@ export default function Restaurants() {
                     {/* description container */}
                     <div className="p-6 flex flex-col flex-1">
                       <h2
-                        className="text-2xl font-normal text-[#5C1A0E] mb-1"
+                        className="text-2xl font-bold text-[#4A1108] mb-1 line-clamp-1"
                         style={{
                           fontFamily: "'Cormorant Garamond', 'Sarabun', serif",
                         }}
@@ -182,7 +182,7 @@ export default function Restaurants() {
                       </h2>
 
                       <div className="flex flex-col gap-2 mb-4">
-                        <div className="flex items-center gap-2 text-sm text-[#7A6357] font-light">
+                          <div className="flex items-center gap-2 text-sm text-[#4A4A4A] font-medium">
                           <svg
                             width="14"
                             height="14"
@@ -190,11 +190,14 @@ export default function Restaurants() {
                             fill="none"
                             stroke="#8B3A2A"
                             strokeWidth="2"
+                            className="shrink-0"
                           >
                             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                             <circle cx="12" cy="10" r="3" />
                           </svg>
-                          {r.address}
+                          <div className="line-clamp-1 flex-1">
+                            {r.address}
+                          </div>
                         </div>
                         <div className="flex items-center gap-2 text-sm text-[#7A6357] font-light">
                           <svg
@@ -230,11 +233,12 @@ export default function Restaurants() {
 
                       <Link
                         href={`/booking?id=${r._id}&restaurant=${r.name}`}
-                        className="mt-auto w-full py-3 rounded-lg text-white text-sm tracking-[0.2em] uppercase font-semibold
+                        className="mt-auto w-full py-3 rounded-lg text-white text-sm tracking-[0.2em] uppercase font-bold
                                 transition-all duration-200 hover:scale-[1.02] active:scale-95 cursor-pointer shadow-md
-                                bg-[#7A2A1E] hover:bg-[#3A6B45] text-center block"
+                                bg-[#8B2A1E] hover:bg-[#3A6B45] text-center block"
+                        style={{ color: 'white', fontWeight: 'bold' }}
                       >
-                        Book
+                        BOOK NOW
                       </Link>
                     </div>
                   </div>

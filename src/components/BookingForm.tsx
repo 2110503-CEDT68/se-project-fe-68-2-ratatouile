@@ -331,9 +331,10 @@ export default function BookingForm() {
             <button
               type="submit"
               onClick={makeBooking}
-              className="cursor-pointer inset-shadow-sm inset-shadow-[#3C3411] bg-[#73683B] text-[#D9C89C] translate-y-17 w-70 hover:bg-[#665A2C] py-4 rounded-full text-md tracking-[0.3em] transition-all shadow-lg"
+              className="cursor-pointer bg-[#73683B] text-white font-bold translate-y-17 w-70 hover:bg-[#665A2C] py-4 rounded-full text-md tracking-[0.3em] transition-all shadow-xl"
+              style={{ color: 'white', fontWeight: 'bold' }}
             >
-              Book
+              BOOK NOW
             </button>
           </Box>
         </div>

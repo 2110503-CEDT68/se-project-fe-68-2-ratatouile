@@ -132,16 +132,17 @@ export default function BookingListAdmin() {
           className="max-w-5xl mx-auto px-6 pt-6 pb-20 relative scroll"
           style={{ fontFamily: "'Jost', 'Sarabun', sans-serif" }}
         >
-          {/* Top Actions */}
-          <div className="absolute px-10 pt-13 right-6 -top-1 flex gap-4">
+          {/* Top Actions Section - Removed absolute to prevent overlap */}
+          <div className="flex flex-col sm:flex-row justify-end gap-3 mb-8 w-full">
             {session?.user.role === 'restaurantOwner' && (
               <>
                 <button
                   onClick={() => setShowReservations(!showReservations)}
-                  className="px-8 py-3 rounded-full text-[#5C3D1A] text-sm tracking-[0.18em] uppercase font-medium
-                            transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer shadow-md"
+                  className="px-6 py-2.5 rounded-full text-black text-xs sm:text-sm tracking-[0.18em] uppercase font-black
+                            transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer shadow-lg border border-[#C9A96E]/50"
                   style={{
                     background: "linear-gradient(135deg, #E8D9A0, #C9A96E)",
+                    textShadow: "0.5px 0.5px 0px rgba(255,255,255,0.3)"
                   }}
                 >
                   {showReservations ? "hide reservations" : "list reservation"}
@@ -149,10 +150,11 @@ export default function BookingListAdmin() {
                 {!ownerRestaurant && (
                   <button
                     onClick={() => setIsCreateModalOpen(true)}
-                    className="px-8 py-3 rounded-full text-[#5C3D1A] text-sm tracking-[0.18em] uppercase font-medium
-                              transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer shadow-md"
+                    className="px-6 py-2.5 rounded-full text-black text-xs sm:text-sm tracking-[0.18em] uppercase font-black
+                              transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer shadow-lg border border-[#C9A96E]/50"
                     style={{
                       background: "linear-gradient(135deg, #E8D9A0, #C9A96E)",
+                      textShadow: "0.5px 0.5px 0px rgba(255,255,255,0.3)"
                     }}
                   >
                     create restaurant
@@ -162,10 +164,11 @@ export default function BookingListAdmin() {
             )}
             <Link
               href="/booking"
-              className="px-8 py-3 rounded-full text-[#5C3D1A] text-sm tracking-[0.18em] uppercase font-medium
-                        transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer shadow-md"
+              className="px-6 py-2.5 rounded-full text-black text-xs sm:text-sm tracking-[0.18em] uppercase font-black
+                        transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer shadow-lg border border-[#C9A96E]/50 flex items-center justify-center"
               style={{
                 background: "linear-gradient(135deg, #E8D9A0, #C9A96E)",
+                textShadow: "0.5px 0.5px 0px rgba(255,255,255,0.3)"
               }}
             >
               create booking
@@ -199,9 +202,12 @@ export default function BookingListAdmin() {
                   <div className="flex gap-4 mt-6">
                     <button
                       onClick={() => setIsUpdateModalOpen(true)}
-                      className="px-8 py-2 rounded-full text-[#5C3D1A] text-xs tracking-widest uppercase font-medium
-                                transition-all hover:scale-105 active:scale-95"
-                      style={{ background: "linear-gradient(135deg, #E8D9A0, #C9A96E)" }}
+                      className="px-8 py-2 rounded-full text-black text-xs tracking-widest uppercase font-black
+                                transition-all hover:scale-105 active:scale-95 shadow-md"
+                      style={{ 
+                        background: "linear-gradient(135deg, #E8D9A0, #C9A96E)",
+                        textShadow: "0.5px 0.5px 0px rgba(255,255,255,0.3)"
+                      }}
                     >
                       Edit Profile
                     </button>
@@ -242,7 +248,7 @@ export default function BookingListAdmin() {
           {/* Main container */}
           {(session?.user.role !== 'restaurantOwner' || showReservations) && (
             <div className="mt-6">
-               <h2 className="text-2xl font-normal text-[#E8D9A0] mb-6 flex items-center gap-3" 
+               <h2 className="text-xl md:text-2xl font-normal text-[#E8D9A0] mb-6 flex items-center gap-3" 
                   style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                 <span className="w-8 h-[1px] bg-[#D9C89C]" />
                 {session?.user.role === 'restaurantOwner' ? "Manage Reservations" : "My Reservations"}
