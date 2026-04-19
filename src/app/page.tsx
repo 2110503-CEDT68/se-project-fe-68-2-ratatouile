@@ -1,3 +1,4 @@
+// Vercel build trigger
 import styles from "./page.module.css";
 import Banner from "@/components/Banner";
 
