@@ -27,11 +27,18 @@
 }
 
 .ds-nav-cluster {
-  position: absolute;
-  left: 50%;
-  display: flex;
-  gap: 2rem;
-  transform: translateX(-50%);
+  display: none;
+  gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .ds-nav-cluster {
+    display: flex;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    gap: 2rem;
+  }
 }
 
 .ds-nav-link {
