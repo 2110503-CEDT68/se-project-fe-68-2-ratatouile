@@ -1,5 +1,5 @@
 "use client";
-import { ReservationItem } from "../../interface";
+import { ReservationItem, RestaurantItem } from "../../interface";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState, useEffect } from "react";

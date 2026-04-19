@@ -1,54 +1,8 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
-
-# testing
-/coverage
-
-# next.js
+node_modules
 /.next/
 /out/
-
-# production
 /build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-# env files (can opt-in for committing if needed)
 .env*
 !.env.example
-
-# vercel
 .vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-
-# local product backlog notes
-RESTAURANT_PROFILE_MANAGEMENT_BACKLOG.md
-SPRINT1_RESTAURANT_PROFILE_MANAGEMENT.md
-
-# local git account switching profiles
-.git-account-profiles
-
-# Antigravity Agent Setup
-.agents/
 antigravity-setup/
-AGENT.md
