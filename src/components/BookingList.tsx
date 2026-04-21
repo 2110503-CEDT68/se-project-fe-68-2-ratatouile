@@ -73,7 +73,7 @@ export default function BookingList() {
       />
 
       {loading ? (
-        <p className="text-center text-white/70 text-lg mt-30">Loading...</p>
+        <p className="text-center text-white/70 text-lg mt-30"> {(!session || !session.user.token) ? "Please sign-in to continue" : "Loading..."}</p>
       ) : (
         <div
           className="max-w-5xl mx-auto px-6 pt-6 pb-20 relative scroll"

@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import BookingCard from "./BookingCard";
 import { apiUrl } from "@/libs/apiUrl";
 import RestaurantForm from "./RestaurantForm";
+import MenuForm from "./MenuForm";
 
 export default function BookingListAdmin() {
   const { data: session } = useSession();
@@ -14,6 +15,8 @@ export default function BookingListAdmin() {
   const [loading, setLoading] = useState(true);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isEditMenuModalOpen, setIsEditMenuModalOpen] = useState(false);
+  
   const [ownerRestaurant, setOwnerRestaurant] = useState<RestaurantItem | null>(null);
   const [showReservations, setShowReservations] = useState(true);
 
@@ -200,12 +203,25 @@ export default function BookingListAdmin() {
                     </div>
                   </div>
                   <div className="flex gap-4 mt-6">
+
                     <button
-                      onClick={() => setIsUpdateModalOpen(true)}
+                      onClick={() => setIsEditMenuModalOpen(true)}
                       className="px-8 py-2 rounded-full text-black text-xs tracking-widest uppercase font-black
                                 transition-all hover:scale-105 active:scale-95 shadow-md"
                       style={{ 
                         background: "linear-gradient(135deg, #E8D9A0, #C9A96E)",
+                        textShadow: "0.5px 0.5px 0px rgba(255,255,255,0.3)"
+                      }}
+                    >
+                      Edit Menu
+                    </button>
+
+
+                    <button
+                      onClick={() => setIsUpdateModalOpen(true)}
+                      className="px-8 py-2 rounded-full border-2 border-[#E8D9A0] text-[#E8D9A0] text-xs tracking-widest uppercase font-black
+                                hover:bg-[#C9A96E] transition-all hover:scale-105 active:scale-95 shadow-md"
+                      style={{ 
                         textShadow: "0.5px 0.5px 0px rgba(255,255,255,0.3)"
                       }}
                     >
@@ -222,6 +238,18 @@ export default function BookingListAdmin() {
                 </div>
               </div>
             </div>
+          )}
+
+          {session?.user.role === 'restaurantOwner' && isEditMenuModalOpen && (
+
+            <MenuForm 
+              onSuccess={() => {
+                setIsEditMenuModalOpen(false);
+                fetchData();
+              }} 
+              onClose={() => setIsEditMenuModalOpen(false)}
+              editData={ownerRestaurant ?? undefined}
+            />
           )}
 
           {session?.user.role === 'restaurantOwner' && isCreateModalOpen && (
