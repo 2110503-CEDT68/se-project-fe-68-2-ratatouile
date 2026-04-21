@@ -261,9 +261,9 @@ export default function BookingForm() {
 
   return (
     <div>
-      {loading ? (
+      {loading || (!session || !session.user.token) ? (
         <p className="text-center text-white/70 text-lg mt-30 z-10 backdrop-blur">
-          Loading...
+          {(!session || !session.user.token) ? "Please sign-in to continue" : "Loading..."}
         </p>
       ) : (
         <div className="bg-[#D9C89C]/70 backdrop-blur-xl rounded-[2rem] p-12 my-30 mx-auto w-[900px] border-2 border-[#D9C89C] inset-shadow-[0_5px_30px_rgba(0,0,0,0.25)]">

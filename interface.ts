@@ -8,7 +8,8 @@ export interface RestaurantItem {
   closeTime: string;
   createdAt: string;
   picture: string;
-  
+
+  menu?: MenuItem[];
   reservations?: ReservationItem[];
   reviews?: ReviewItem[];
 }
@@ -55,4 +56,17 @@ export interface UserItem {
   telephone: string;
   role: 'user' | 'admin';
   createdAt: string;
+}
+
+export interface MenuItem {
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+}
+
+export interface MenuJson {
+  success: boolean;
+  count: number;
+  data: MenuItem[];
 }

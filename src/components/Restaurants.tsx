@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import ReviewModal from "./ReviewModal";
 import { apiUrl } from "@/libs/apiUrl";
 import RestaurantForm from "./RestaurantForm";
+import MenuModal from "./MenuModal";
 
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -38,6 +39,12 @@ export default function Restaurants() {
   const { data: session } = useSession();
 
   const [isReviewOpen, setIsReviewOpen] = useState(false);
+
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [viewMenuRestaurants, setViewMenuRestaurants] = useState<RestaurantItem | null>(null);
+
+
   const [editingReview, setEditingReview] = useState<any>(null);
 
   const onEdit = (review: any) => {
@@ -233,13 +240,23 @@ export default function Restaurants() {
 
                       <Link
                         href={`/booking?id=${r._id}&restaurant=${r.name}`}
-                        className="mt-auto w-full py-3 rounded-lg text-white text-sm tracking-[0.2em] uppercase font-bold
+                        className="mt-auto w-full py-3 rounded-lg text-white text-sm tracking-[0.2em] uppercase font-semibold
                                 transition-all duration-200 hover:scale-[1.02] active:scale-95 cursor-pointer shadow-md
-                                bg-[#8B2A1E] hover:bg-[#3A6B45] text-center block"
-                        style={{ color: 'white', fontWeight: 'bold' }}
+                                bg-[#7A2A1E] hover:bg-[#3A6B45] text-center block"
                       >
                         BOOK NOW
                       </Link>
+                      <div
+                        onClick={() => {
+                          setViewMenuRestaurants(r);
+                          setIsMenuOpen(true);
+                        }}
+                        className="mt-3 w-full py-3 rounded-lg text-[#8B2A1E] text-sm tracking-[0.2em] uppercase
+                                transition-all duration-200 hover:scale-[1.02] active:scale-95 cursor-pointer shadow-md
+                                bg-[#e0e0e0s] hover:bg-[#e1d0d0] text-center block border-2"
+                      >
+                        View Menu
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -351,6 +368,15 @@ export default function Restaurants() {
             )}
           </>
         )}
+
+        {viewMenuRestaurants && (
+          <MenuModal
+            isOpen={isMenuOpen}
+            onClose={() => setIsMenuOpen(false)}
+            restaurant={viewMenuRestaurants}
+          />
+        )}
+
         <ReviewModal
           isOpen={isReviewOpen}
           onClose={() => {
