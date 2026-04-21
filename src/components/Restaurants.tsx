@@ -240,7 +240,8 @@ export default function Restaurants() {
 
                       <Link
                         href={`/booking?id=${r._id}&restaurant=${r.name}`}
-                        className="mt-auto w-full py-3 rounded-lg text-white text-sm tracking-[0.2em] uppercase font-semibold
+                        style={{color: "white"}}
+                        className="mt-auto w-full py-3 rounded-lg text-white text-sm tracking-[0.2em] uppercase
                                 transition-all duration-200 hover:scale-[1.02] active:scale-95 cursor-pointer shadow-md
                                 bg-[#7A2A1E] hover:bg-[#3A6B45] text-center block"
                       >
