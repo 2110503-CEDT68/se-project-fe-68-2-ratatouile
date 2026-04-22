@@ -206,14 +206,11 @@ export default function BookingListAdmin() {
 
                     <button
                       onClick={() => setIsEditMenuModalOpen(true)}
-                      className="px-8 py-2 rounded-full text-black text-xs tracking-widest uppercase font-black
-                                transition-all hover:scale-105 active:scale-95 shadow-md"
-                      style={{ 
-                        background: "linear-gradient(135deg, #E8D9A0, #C9A96E)",
-                        textShadow: "0.5px 0.5px 0px rgba(255,255,255,0.3)"
-                      }}
+                      className="px-8 py-2 rounded-full text-[#5C3D1A] text-xs tracking-widest uppercase font-medium
+                                transition-all hover:scale-105 active:scale-95"
+                      style={{ background: "linear-gradient(135deg, #E8D9A0, #C9A96E)" }}
                     >
-                      Edit Menu
+                      {ownerRestaurant.menus && ownerRestaurant.menus.length > 0 ? "Edit Menu " : "Create Menu"}
                     </button>
 
 
@@ -234,7 +231,7 @@ export default function BookingListAdmin() {
                     </button>
                   </div>
                 </div>
-              </div>
+              </div>=
             </div>
           )}
 
