@@ -27,6 +27,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: false
+          load: true
           tags: ratatouille-fe:ci
           build-args: |
             NEXT_PUBLIC_API_BASE_URL=http://localhost:5050
@@ -35,3 +36,19 @@ jobs:
             NEXTAUTH_SECRET=replace_with_a_stable_secret
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Scan frontend Docker image with Trivy
+        uses: aquasecurity/trivy-action@0.35.0
+        with:
+          image-ref: ratatouille-fe:ci
+          format: table
+          output: trivy-image-results.txt
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+
+      - name: Upload frontend Trivy image report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-trivy-image-report
+          path: trivy-image-results.txt
