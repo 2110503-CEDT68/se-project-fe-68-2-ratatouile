@@ -255,16 +255,17 @@ export default function MenuForm({
                   </button>
                 </div>
 
-                <div className="grid grid-cols-[1fr_1fr_2fr_1fr_60px] gap-4 font-bold border-b border-gray-300 pb-2 text-center text-sm text-gray-600">
+                <div className="grid grid-cols-[1fr_1fr_1.5fr_1.5fr_1fr_60px] gap-4 font-bold border-b border-gray-300 pb-2 text-center text-sm text-gray-600">
                   <div>Name</div>
                   <div>Category</div>
                   <div>Description</div>
+                  <div>Image Link</div>
                   <div>Price</div>
                   <div></div>
                 </div>
 
                 {menu.items.map((dish, i) => (
-                  <div key={dish._id ?? i} className="grid grid-cols-[1fr_1fr_2fr_1fr_60px] gap-4 items-center border-b border-gray-200 py-2">
+                  <div key={dish._id ?? i} className="grid grid-cols-[1fr_1fr_1.5fr_1.5fr_1fr_60px] gap-4 items-center border-b border-gray-200 py-2">
                     <input
                       value={dish.name}
                       required
@@ -281,6 +282,12 @@ export default function MenuForm({
                       value={dish.description}
                       required
                       onChange={(e) => updateDish(menu._id, dish._id as string, "description", e.target.value)}
+                      className="w-full px-2 py-1 border rounded text-sm"
+                    />
+                    <input
+                      value={dish.picture || ""}
+                      placeholder="https://..."
+                      onChange={(e) => updateDish(menu._id, dish._id as string, "picture", e.target.value)}
                       className="w-full px-2 py-1 border rounded text-sm"
                     />
                     <input
@@ -317,7 +324,7 @@ export default function MenuForm({
                         if (m._id !== menu._id) return m;
                         return {
                           ...m,
-                          items: [...m.items, { _id: crypto.randomUUID(), category: "", name: "", price: 0, description: "" }],
+                          items: [...m.items, { _id: crypto.randomUUID(), category: "", name: "", price: 0, description: "", picture: "" }],
                         };
                       })
                     );
