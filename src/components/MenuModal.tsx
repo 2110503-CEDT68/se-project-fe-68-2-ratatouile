@@ -58,7 +58,8 @@ export default function MenuModal({ isOpen, onClose, restaurant }: MenuModalProp
                                                             alt={dish.name} 
                                                             className="w-20 h-20 object-cover rounded-2xl border border-white/10 shadow-sm" 
                                                             onError={(e) => {
-                                                                (e.target as HTMLImageElement).src = "https://placehold.co/100x100?text=No+Image";
+                                                                e.currentTarget.onerror = null;
+                                                                e.currentTarget.src = "https://placehold.co/100x100?text=No+Image";
                                                             }}
                                                         />
                                                     ) : (
@@ -94,7 +95,7 @@ export default function MenuModal({ isOpen, onClose, restaurant }: MenuModalProp
                                                 {/* Price - Right Aligned with formatting */}
                                                 <div className="flex-shrink-0 text-right pl-4 pr-2">
                                                     <div className="text-2xl font-bold text-[#E8D9A0]">
-                                                        ฿{Number(dish.price).toLocaleString()}
+                                                        {dish.price != null ? `฿${Number(dish.price).toLocaleString()}` : "-"}
                                                     </div>
                                                 </div>
                                             </div>
