@@ -10,3 +10,11 @@ docker-compose*.yml
 README.md
 tsconfig.tsbuildinfo
 .env.local
+.env
+.omx
+.gitnexus
+.claude
+.git-account-profiles*
+AGENT.md
+AGENTS.md
+CLAUDE.md

@@ -41,14 +41,17 @@ docker build \
   --build-arg NEXT_PUBLIC_API_BASE_URL=http://localhost:5050 \
   --build-arg INTERNAL_API_BASE_URL=http://host.docker.internal:5050 \
   --build-arg NEXTAUTH_URL=http://localhost:3000 \
-  --build-arg NEXTAUTH_SECRET=replace_with_a_stable_secret \
   -t ratatouille-fe .
 ```
 
 Run the frontend container:
 
 ```bash
-docker run --rm -p 3000:3000 --name ratatouille-fe ratatouille-fe
+docker run --rm \
+  -p 3000:3000 \
+  -e NEXTAUTH_SECRET=replace_with_a_stable_secret \
+  --name ratatouille-fe \
+  ratatouille-fe
 ```
 
 The app should then be available at `http://localhost:3000`.
