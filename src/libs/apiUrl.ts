@@ -1,4 +1,4 @@
-const DEFAULT_PUBLIC_API_BASE_URL = "https://ratata-bay.vercel.app";
+const DEFAULT_PUBLIC_API_BASE_URL = "https://ratata-bay.vercel.app/";
 
 const publicApiBaseUrl =
   process.env.NEXT_PUBLIC_API_BASE_URL || DEFAULT_PUBLIC_API_BASE_URL;
