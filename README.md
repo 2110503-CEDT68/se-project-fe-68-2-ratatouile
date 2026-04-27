@@ -32,6 +32,20 @@ The design direction currently uses shared brand tokens for:
 - primary and secondary text colors
 - shared contrast/action colors
 
+# Playwright E2E Tests
+
+Run the restaurant-owner acceptance tests:
+
+```bash
+npm run test:e2e
+```
+
+Open Chromium slowly so the flow can be watched:
+
+```bash
+PLAYWRIGHT_DIALOG_PAUSE_MS=2000 npm run test:e2e:slow
+```
+
 # Docker Local Run
 
 Build the frontend image for a local backend running on port `5050`:
@@ -41,14 +55,17 @@ docker build \
   --build-arg NEXT_PUBLIC_API_BASE_URL=http://localhost:5050 \
   --build-arg INTERNAL_API_BASE_URL=http://host.docker.internal:5050 \
   --build-arg NEXTAUTH_URL=http://localhost:3000 \
-  --build-arg NEXTAUTH_SECRET=replace_with_a_stable_secret \
   -t ratatouille-fe .
 ```
 
 Run the frontend container:
 
 ```bash
-docker run --rm -p 3000:3000 --name ratatouille-fe ratatouille-fe
+docker run --rm \
+  -p 3000:3000 \
+  -e NEXTAUTH_SECRET=replace_with_a_stable_secret \
+  --name ratatouille-fe \
+  ratatouille-fe
 ```
 
 The app should then be available at `http://localhost:3000`.
