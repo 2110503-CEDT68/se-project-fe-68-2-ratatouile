@@ -17,6 +17,7 @@ export default function SignUp() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isAccepted, setIsAccepted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -236,11 +237,33 @@ export default function SignUp() {
               </div>
             </div>
 
+            {/* Policy Acceptance Checkbox */}
+            <div className="flex items-center gap-2 mt-4 text-left">
+              <input
+                id="policy"
+                type="checkbox"
+                checked={isAccepted}
+                onChange={(e) => setIsAccepted(e.target.checked)}
+                className="w-4 h-4 rounded border-[#D9C89C] text-[#877959] focus:ring-[#D9C89C]"
+                required
+              />
+              <label htmlFor="policy" className="text-sm text-[#59200D]">
+                I agree to the{" "}
+                <Link
+                  href="/policy"
+                  className="text-[#A76438] underline decoration-solid decoration-1 underline-offset-4 hover:text-[#59200D] hover:decoration-2 transition-all font-semibold"
+                  target="_blank"
+                >
+                  User Policy & Concerns
+                </Link>
+              </label>
+            </div>
+
             {/* Register Button */}
             <button
               type="submit"
-              disabled={isLoading}
-              className="w-full py-2 rounded-lg bg-gradient-to-r from-[#D9C89C] to-[#877959] text-white font-semibold hover:opacity-90 transition disabled:opacity-50 mt-6 text-center"
+              disabled={isLoading || !isAccepted}
+              className="w-full py-2 rounded-lg bg-gradient-to-r from-[#D9C89C] to-[#877959] text-white font-semibold hover:opacity-90 transition disabled:opacity-50 mt-4 text-center"
             >
               {isLoading ? "Registering..." : "Register"}
             </button>
