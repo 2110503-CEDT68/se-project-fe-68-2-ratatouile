@@ -32,6 +32,20 @@ The design direction currently uses shared brand tokens for:
 - primary and secondary text colors
 - shared contrast/action colors
 
+# Playwright E2E Tests
+
+Run the restaurant-owner acceptance tests:
+
+```bash
+npm run test:e2e
+```
+
+Open Chromium slowly so the flow can be watched:
+
+```bash
+PLAYWRIGHT_DIALOG_PAUSE_MS=2000 npm run test:e2e:slow
+```
+
 # Docker Local Run
 
 Build the frontend image for a local backend running on port `5050`:
