@@ -11,8 +11,8 @@
     "format:check": "prettier --check .",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:e2e": "playwright test",
-    "test:e2e:slow": "PLAYWRIGHT_SLOW_MO=700 playwright test --headed",
+    "test:e2e": "playwright test --headed",
+    "test:e2e:slow": "PLAYWRIGHT_SLOW_MO=1000 PLAYWRIGHT_DIALOG_PAUSE_MS=3000 playwright test --headed",
     "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
