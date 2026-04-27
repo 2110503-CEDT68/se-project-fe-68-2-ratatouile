@@ -302,12 +302,23 @@ export default function MenuForm({
                       <button
                         type="button"
                         onClick={() => {
+                          if (
+                            confirm(
+                              `Are you sure you want to delete "${dish.name}"?`
+                            )
+                          ) {
                             setMenus((prev) =>
                               prev.map((m) => {
                                 if (m._id !== menu._id) return m;
-                                return { ...m, items: m.items.filter((d) => d._id !== dish._id) };
+                                return {
+                                  ...m,
+                                  items: m.items.filter(
+                                    (d) => d._id !== dish._id
+                                  ),
+                                };
                               })
                             );
+                          }
                         }}
                         className="text-red-500 hover:text-red-700"
                       >
