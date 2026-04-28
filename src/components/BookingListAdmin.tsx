@@ -231,7 +231,7 @@ export default function BookingListAdmin() {
                     </button>
                   </div>
                 </div>
-              </div>=
+              </div>
             </div>
           )}
 
