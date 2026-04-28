@@ -264,9 +264,8 @@ export default function MenuForm({
                   <div></div>
                 </div>
 
-                {menu.items.length == 0 ?
-                
-                    <div className="text-[#877959] opacity-60 text-center rounded-lg text-sm my-4">
+                {!menu.items || menu.items.length == 0 ?
+                  <div className="text-[#877959] opacity-60 text-center rounded-lg text-sm my-4">
                       This category is currently empty.
                   </div>
                   :
