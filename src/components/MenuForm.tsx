@@ -264,7 +264,13 @@ export default function MenuForm({
                   <div></div>
                 </div>
 
-                {menu.items.map((dish, i) => (
+                {menu.items.length == 0 ?
+                
+                    <div className="text-[#877959] opacity-60 text-center rounded-lg text-sm my-4">
+                      This category is currently empty.
+                  </div>
+                  :
+                menu.items.map((dish, i) => (
                   <div key={dish._id ?? i} className="grid grid-cols-[1fr_1fr_1.5fr_1.5fr_1fr_60px] gap-4 items-center border-b border-gray-200 py-2">
                     <input
                       value={dish.name}
@@ -326,7 +332,8 @@ export default function MenuForm({
                       </button>
                     </div>
                   </div>
-                ))}
+                ))
+              }
 
                 <div
                   onClick={() => {
